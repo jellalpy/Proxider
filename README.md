@@ -4,7 +4,7 @@ A proxy graber from different sites and create list proxy
 ```sh
 git clone https://github.com/jellalpy/Proxider.git
 cd Proxider
-pip install - r requirements.txt
+pip install -r requirements.txt
 python3 proxider.py
 ```
 # explanation
