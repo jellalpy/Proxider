@@ -44,6 +44,7 @@ while True:
 		validProxies = re.findall('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', get)
 	except:
 		rprint("[red]Operation of getting proxies  faild➜ [/red][gold3]"+url)
+		break
 	proo = []
 	for proxy in validProxies:
 		proo.append(proxy)
@@ -70,6 +71,7 @@ while True:
 		res = re.findall(r'"initial": "([\d\.]+:\d+)", "valid": true', response)
 	except:
 		rprint("[red]Operation of cheking proxies  faild➜ [/red][gold3]"+url)
+		break
 	if file in os.listdir():
 		with open(file,"a") as v:
 			for proxy in res:
