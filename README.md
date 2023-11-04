@@ -1,5 +1,5 @@
 # Proxider
-A proxy graber from different sites
+A proxy graber from different sites and create list proxy
 # installation
 ```sh
 git clone https://github.com/jellalpy/Proxider.git
