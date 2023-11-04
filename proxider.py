@@ -49,7 +49,6 @@ while True:
 	for proxy in validProxies:
 		proo.append(proxy)
 	total = len(proo)
-	#rprint(f"[green]Done getting {total} proxies from✅ >", url)
 	tree = Tree("[bright_cyan]Getting proxies...")
 	baz_tree = tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
 	rprint(tree)
@@ -88,8 +87,6 @@ while True:
 	for proxy in res:
 		pro3.append(proxy)
 	total = len(pro3)
-	#rprint("Done checking the proxies✅")
-#		rprint("[yellow]the proxies found working are> ",total)
 	tree = Tree("[bright_yellow]Checking proxies...")
 	baz_tree = tree.add("[green]Total proxies found working➜ [/green][gold3]"+str(total))
 	rprint(tree)
@@ -97,25 +94,8 @@ while True:
 	os.system("rm data.txt")
 	rprint("___________________________________[cornsilk1](another_site)[cornsilk1]___________________________________")
 
-num_lines = sum(1 for line in open(file))
-rprint("[orange]Done checking ✅ there is ",num_lines,"[orange] in proxies.txt")
-
-
-("""
-https://raw.githubusercontent.com/prxchk/proxy-list/master/all.txt
-
-
-https://github.com/prxchk/proxy-list/blob/main/http.txt
-
-
-
-x = input(">")
-for i in sites:
-	if x in i:
-		print("there is ")
-		break
-	else:
-		print("not in sites")
-
-
-""")
+try:
+	num_lines = sum(1 for line in open(file))
+	rprint("[orange]Done checking ✅ there is ",num_lines,"[orange] in proxies.txt")
+except:
+	pass
