@@ -32,19 +32,19 @@ if "data.txt" in os.listdir():
   os.system("rm data.txt")
 if "proxies" in os.listdir():
   os.system("rm proxies.txt")
-  
 
 while True:
 	if len(sites) ==0:
 		break
 	url = random.choice(sites)
 	sites.remove(url)
-	try:
-		get = requests.get(url, timeout=15).text
-		validProxies = re.findall('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', get)
-	except:
-		rprint("[red]Operation of getting proxies  faild➜ [/red][gold3]"+url)
-		break
+	with con.status("[blue]Getting proxies...", spinner="earth"):
+		try:
+			get = requests.get(url, timeout=15).text
+			validProxies = re.findall('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', get)
+		except:
+			rprint("[red]Operation of getting proxies  faild➜ [/red][gold3]"+url)
+			break
 	proo = []
 	for proxy in validProxies:
 		proo.append(proxy)
@@ -65,12 +65,13 @@ while True:
 	data = {
     'proxy_list': kk,
 }
-	try:
-		response = requests.post('https://api.proxy-checker.net/api/proxy-checker/', headers=headers, data=data,).text
-		res = re.findall(r'"initial": "([\d\.]+:\d+)", "valid": true', response)
-	except:
-		rprint("[red]Operation of cheking proxies  faild➜ [/red][gold3]"+url)
-		break
+	with con.status("[blue]Checking proxies...", spinner="earth"):
+		try:
+			response = requests.post('https://api.proxy-checker.net/api/proxy-checker/', headers=headers, data=data,).text
+			res = re.findall(r'"initial": "([\d\.]+:\d+)", "valid": true', response)
+		except:
+			rprint("[red]Operation of cheking proxies  faild➜ [/red][gold3]"+url)
+			break
 	if file in os.listdir():
 		with open(file,"a") as v:
 			for proxy in res:
