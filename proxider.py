@@ -93,7 +93,7 @@ while True:
 	rprint(tree)
 	pro3.clear()
 	os.system("rm data.txt")
-	rprint("______________________________(another_site)______________________________")
+	print("______________________________(another_site)______________________________")
 
 try:
 	num_lines = sum(1 for line in open(file))
