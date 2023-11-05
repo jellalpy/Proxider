@@ -35,10 +35,10 @@ if "proxies" in os.listdir():
   
 
 while True:
-	url = random.choice(sites)
-	sites.remove(url)
 	if len(sites) ==0:
 		break
+	url = random.choice(sites)
+	sites.remove(url)
 	try:
 		get = requests.get(url, timeout=15).text
 		validProxies = re.findall('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', get)
