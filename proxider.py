@@ -1,4 +1,4 @@
-import requests,re,random,os
+import requests,re,random,os,sys,time
 from user_agent import generate_user_agent
 from rich import print as rprint
 from rich.console import Console
@@ -6,10 +6,29 @@ from rich.tree import Tree
 
 con = Console()
 
+os.system("clear")
+if "data.txt" in os.listdir():
+	os.system("rm data.txt")
+
 file = "proxies.txt"
 file2 = "data.txt"
+file3 = "sites.txt"
 
-sites = ["https://raw.githubusercontent.com/ErcinDedeoglu/proxies/main/proxies/https.txt","https://raw.githubusercontent.com/ErcinDedeoglu/proxies/main/proxies/https.txt","https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/socks5.txt","https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/socks4.txt","https://raw.githubusercontent.com/TheSpeedX/SOCKS-List/master/http.txt","https://raw.githubusercontent.com/clarketm/proxy-list/master/proxy-list-raw.txt","https://raw.githubusercontent.com/shiftytr/proxy-list/master/proxy.txt","https://raw.githubusercontent.com/monosans/proxy-list/master/proxies/http.txt","https://raw.githubusercontent.com/monosans/proxy-list/master/proxies/socks4.txt","https://raw.githubusercontent.com/monosans/proxy-list/master/proxies/socks5.txt","https://raw.githubusercontent.com/jetkai/proxy-list/master/online-proxies/txt/proxies.txt","https://raw.githubusercontent.com/mmpx12/proxy-list/master/http.txt","https://raw.githubusercontent.com/zevtyardt/proxy-list/master/all.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies_anonymous/http.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies_anonymous/socks4.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies_anonymous/socks5.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies/socks4.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies/socks5.txt","https://raw.githubusercontent.com/rdavydov/proxy-list/master/proxies/http.txt","https://raw.githubusercontent.com/MuRongPIG/Proxy-Master/master/http.txt","https://raw.githubusercontent.com/MuRongPIG/Proxy-Master/master/socks4.txt","https://raw.githubusercontent.com/MuRongPIG/Proxy-Master/master/socks5.txt","https://raw.githubusercontent.com/proxy4parsing/proxy-list/master/http.txt","https://raw.githubusercontent.com/proxy4parsing/proxy-list/master/hproxy.txt","https://raw.githubusercontent.com/proxy4parsing/proxy-list/master/http_old.txt","https://raw.githubusercontent.com/roosterkid/openproxylist/master/SOCKS4_RAW.txt","https://raw.githubusercontent.com/roosterkid/openproxylist/master/HTTPS_RAW.txt","https://raw.githubusercontent.com/roosterkid/openproxylist/master/SOCKS5_RAW.txt","https://raw.githubusercontent.com/proxylist-to/proxy-list/master/http.txt","https://raw.githubusercontent.com/proxylist-to/proxy-list/master/socks4.txt","https://raw.githubusercontent.com/proxylist-to/proxy-list/master/socks5.txt","https://raw.githubusercontent.com/Zaeem20/FREE_PROXIES_LIST/master/http.txt","https://raw.githubusercontent.com/Zaeem20/FREE_PROXIES_LIST/master/https.txt","https://raw.githubusercontent.com/Zaeem20/FREE_PROXIES_LIST/master/socks4.txt","https://raw.githubusercontent.com/Zaeem20/FREE_PROXIES_LIST/master/socks5.txt","https://raw.githubusercontent.com/Tsprnay/Proxy-lists/master/proxies/http.txt","https://raw.githubusercontent.com/Tsprnay/Proxy-lists/master/proxies/https.txt","https://raw.githubusercontent.com/Tsprnay/Proxy-lists/master/proxies/socks4.txt","https://raw.githubusercontent.com/Tsprnay/Proxy-lists/master/proxies/socks5.txt","https://raw.githubusercontent.com/prxchk/proxy-list/master/all.txt","https://raw.githubusercontent.com/hookzof/socks5_list/master/proxy.txt","https://raw.githubusercontent.com/proxy4parsing/proxy-list/main/http.txt","https://raw.githubusercontent.com/ALIILAPRO/Proxy/main/socks5.txt","https://raw.githubusercontent.com/ALIILAPRO/Proxy/main/socks4.txt","https://raw.githubusercontent.com/ALIILAPRO/Proxy/main/http.txt","https://raw.githubusercontent.com/andigwandi/free-proxy/main/proxy_list.txt","https://raw.githubusercontent.com/officialputuid/KangProxy/KangProxy/socks5/socks5.txt","https://raw.githubusercontent.com/officialputuid/KangProxy/KangProxy/socks4/socks4.txt","https://raw.githubusercontent.com/officialputuid/KangProxy/KangProxy/https/https.txt","https://raw.githubusercontent.com/officialputuid/KangProxy/KangProxy/http/http.txt","https://raw.githubusercontent.com/tuanminpay/live-proxy/master/all.txt","https://sunny9577.github.io/proxy-scraper/proxies.txt","https://sunny9577.github.io/proxy-scraper/generated/socks5_proxies.txt","https://sunny9577.github.io/proxy-scraper/generated/socks4_proxies.txt","https://sunny9577.github.io/proxy-scraper/generated/http_proxies.txt"]
+sittes = []
+
+#add sites
+
+with open(file3,"r") as b:
+	sites = b.readlines()
+	for site in sites:
+		rr = site.replace("\n","")
+		sittes.append(rr)
+
+rprint("[green]total sites uploaded",len(sittes))
+time.sleep(3)
+os.system("clear")
+
+#howover you need to make sure every site is in new line and the form of proxies in site is ip:port or it won't get proxies from it you can add remove how much sites you want
 
 headers = {
     'Accept': '*/*',
@@ -27,38 +46,39 @@ headers = {
     'sec-ch-ua-platform': '"Linux"',
 }
 
-os.system("clear")
-if "data.txt" in os.listdir():
-  os.system("rm data.txt")
-if "proxies" in os.listdir():
-  os.system("rm proxies.txt")
+#removing the data every time the code make request to the site where it check the working proxies
 
-while True:
-	if len(sites) ==0:
-		break
-	url = random.choice(sites)
-	sites.remove(url)
+def delete_previous_output():
+	if "data.txt" in os.listdir():
+		os.system("rm data.txt")
+
+#getting proxies from the site so i can write down the form to make request
+
+def getting_proxies(proxies, begun, end):
+	total = len(proxies)
+	test = proxies[begun:end]
+	with open(file2, "w+") as s:
+		s.write(r"\n".join(test))
+	return total, test
+
+#getting proxies from site in the same time know how proxies i got
+
+def know_len_of_proxies_found(url,proxies):
 	with con.status("[blue]Getting proxies...", spinner="earth"):
 		try:
-			get = requests.get(url, timeout=15).text
-			validProxies = re.findall('(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', get)
+			enter_sites = requests.get(url, timeout=15).text
+			get_proxies = re.findall(r'(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\.(?:[\d]{1,3})\:(?:[\d]{2,5})', enter_sites)
 		except:
 			rprint("[red]Operation of getting proxies  faild➜ [/red][gold3]"+url)
-			break
-	proo = []
-	for proxy in validProxies:
-		proo.append(proxy)
-	total = len(proo)
-	tree = Tree("[bright_cyan]Getting proxies...")
-	baz_tree = tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
-	rprint(tree)
-	proo.clear()
-	if file2 in os.listdir():
-		with open(file2, "a") as s:
-			s.write(r"\n".join(validProxies))
-	else:
-		with open(file2, "w+") as s:
-			s.write(r"\n".join(validProxies))
+			sys.exit()
+	for proxy in get_proxies:
+		proxies.append(proxy)
+	total = len(proxies)
+	return total
+
+#check proxies
+
+def check_proxies():
 	with open(file2,"r") as d:
 		kk = d.readline()
 	kk = kk.replace("\\n", "\n")
@@ -71,7 +91,7 @@ while True:
 			res = re.findall(r'"initial": "([\d\.]+:\d+)", "valid": true', response)
 		except:
 			rprint("[red]Operation of cheking proxies  faild➜ [/red][gold3]"+url)
-			break
+			sys.exit()
 	if file in os.listdir():
 		with open(file,"a") as v:
 			for proxy in res:
@@ -83,7 +103,6 @@ while True:
 		with open(file,"w+") as v:
 			for proxy in res:
 				v.write(proxy + "\n")
-	num_lines = sum(1 for line in open(file))
 	pro3 = []
 	for proxy in res:
 		pro3.append(proxy)
@@ -92,11 +111,57 @@ while True:
 	baz_tree = tree.add("[green]Total proxies found working➜ [/green][gold3]"+str(total))
 	rprint(tree)
 	pro3.clear()
-	os.system("rm data.txt")
-	print("______________________________(another_site)______________________________")
 
-try:
-	num_lines = sum(1 for line in open(file))
-	rprint("[orange]Done checking ✅ there is ",num_lines,"[orange] in proxies.txt")
-except:
-	pass
+#down to work
+
+while True:
+	try:
+		url = random.choice(sittes)
+	except:
+		num_lines = sum(1 for line in open(file))
+		rprint("[orange]Done checking ✅ there is ",num_lines,"[orange] in proxies.txt")
+		break
+	proxies = []
+	
+	total = know_len_of_proxies_found(url,proxies)
+	if total < 500:
+		begun = 0
+		end = 500
+		test, total= getting_proxies(proxies, begun, end)
+		tree= Tree("[bright_cyan]Getting proxies...")
+		tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
+		check_proxies()
+		delete_previous_output()
+		proxies.clear()
+		toto = len(sittes)
+		rprint("[green]remained sites > ",toto)
+		sittes.remove(url)
+		os.system("clear")
+		
+	else:
+	
+		k = 0
+		l = 501
+		rprint("[pink1][!]the code check 500 to 500 from the list so you need to be patient^-^...")
+		while True:
+			rprint(f"[+]checking between {k} and {l} from total {total}")
+			begun = k
+			end = l
+			total, test = getting_proxies(proxies, begun, end)
+			tree= Tree("[bright_cyan]Getting proxies...")
+			if len(test) == 0:
+				delete_previous_output()
+				toto = len(sittes)
+				sittes.remove(url)
+				rprint("[green]remained sites > ",toto)
+				proxies.clear()
+				time.sleep(3)
+				break
+			else:
+				tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
+				rprint(tree)
+				check_proxies()
+				delete_previous_output()
+			l += 500
+			k += 500
+		os.system("clear")
