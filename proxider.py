@@ -142,7 +142,7 @@ while True:
 	
 		k = 0
 		l = 501
-		rprint("[pink1][!]the code check 500 to 500 from the list so you need to be patient^-^...")
+		rprint("[pink1][!]the code check 500 to 500 from the list so you need to be patient^-^")
 		while True:
 			rprint(f"[+]checking between {k} and {l} from total {total}")
 			begun = k
