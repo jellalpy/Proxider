@@ -149,6 +149,12 @@ while True:
 			end = l
 			total, test = getting_proxies(proxies, begun, end)
 			tree= Tree("[bright_cyan]Getting proxies...")
+			tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
+			rprint(tree)
+			check_proxies()
+			delete_previous_output()
+			l += 500
+			k += 500
 			if len(test) == 0:
 				delete_previous_output()
 				toto = len(sittes)
@@ -157,11 +163,4 @@ while True:
 				proxies.clear()
 				time.sleep(3)
 				break
-			else:
-				tree.add("[orange4]Url➜[/orange4] [gold3]"+url).add("[green]Total proxies found➜ [/green][gold3]"+str(total))
-				rprint(tree)
-				check_proxies()
-				delete_previous_output()
-			l += 500
-			k += 500
 		os.system("clear")
