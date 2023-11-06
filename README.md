@@ -9,3 +9,5 @@ python3 proxider.py
 ```
 # explanation
 the code gets proxies from sites and then check them if they are working it save them in file named proxies.txt in form of ip:port
+# sites
+you can add and remove a site from the file sites just if the form of proxies in the site (ip:port)
