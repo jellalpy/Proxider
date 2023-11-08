@@ -1,6 +1,5 @@
 # Proxider
 A proxy graber from sites and a tester
-![Screenshot_20231106-134004_Termux](https://github.com/jellalpy/Proxider/assets/114426494/b31ee046-6ae8-45de-901a-f798cf3cfe19)
 
 # installation
 ```sh
